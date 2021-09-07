@@ -48,11 +48,49 @@
     <p class="lead m-1">Whether sharing your expertise, breaking news, or whatever’s on your mind, you’re in good company on PostBlog.</p>
     <p class="lead">Sign up to discover why millions of people have published their passions here.</p>
     <p class="lead pb-2">
-      <a href="#" class="btn btn-lg btn-secondary">GET STARTED</a>
+    {% if user.is_authenticated %}
+      <button type="button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#postModal">GET STARTED</button>
+      {% else %}
+      <button type="button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#SignUpModal">GET STARTED</button>
+      {% endif %}
     </p>
     <cite title="Source Title">Every time you post something online, you have a choice. You can either make it something that adds to the happiness levels in the world—or you can make it something that takes away.</cite>
   </main>
 </div>
 
+<!-- Post Blog Modal -->
+<div class="modal fade" id="postModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="postModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="postModalTitle">Post Here</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action='/blog/postblog' method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Your Name</label>
+            <input type="text" class="form-control" id="authorname" name="authorname" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Blog Title</label>
+            <input type="text" class="form-control" id="blogtitle" name="blogtitle" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Blog Content</label>
+            <textarea class="form-control" rows="12" id="blogcontent" name="blogcontent" required></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light mx-2" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-dark mx-2">POST</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock body %}

@@ -5,10 +5,38 @@
 {% block body %}
 
 <div class="container col-md-8 blog-main">
-    <h2 class="pb-4 m-4 font-italic border-bottom">
-    {{post.title}}
-    </h2>
-
+    <div class="row pb-4 m-4 border-bottom">
+        <div class="col-9">
+            <h2 class="font-italic">
+            {{post.title}}
+            </h2>
+        </div>
+        <div class="col-auto px-0 d-flex align-items-center">
+            <form action="{% url 'like_post' %}" method = "POST">
+                {% csrf_token %}
+                {% if is_liked %}
+                <button type="submit" name="post_id" value="{{post.sNo}}" class="btn btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-down-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
+                </svg>
+                Downvote
+                </button>
+                {% else %}
+                <button type="submit" name="post_id" value="{{post.sNo}}" class="btn btn-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+                </svg>
+                Upvote
+                </button>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+            <h4><span class="badge badge-pill badge-light">
+            {{total_likes}} Like{{total_likes | pluralize}}
+            </span></h4>
+        </div>
+    </div>
     <div class="blog-post m-4">
     <p class="blog-post-meta">{{post.timestamp}} by <a href="#">{{post.author}}</a></p>
 
