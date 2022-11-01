@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block body %}
+
+<section class="jumbotron text-center">
+<div class="container">
+    <h1 class="display-4">{{users.name}}</h1>
+    <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+    <div class="row justify-content-md-center">
+        <div class="col-md-2 border-left border-right">
+            <p class="h2 font-weight-light"> Posts </p>
+            <p class="h2"> {{posts}} </p>
+        </div>
+        <div class="col-md-2 border-left border-right">
+            <p class="h2 font-weight-light"> Followers </p>
+            <p class="h2"> {{followers}} </p>
+        </div>
+        <div class="col-md-2 border-left border-right">
+            <p class="h2 font-weight-light"> Following </p>
+            <p class="h2"> {{following}} </p>
+        </div>
+        <div class="col-md-2 border-left border-right">
+            <p class="h2 font-weight-light"> Likes </p>
+            <p class="h2"> {{users.likes}} </p>
+        </div>
+    </div>
+    {% if not_self %}
+    <div class="row justify-content-md-center pt-4">
+        <div class="col-md-5">
+            <form action="{% url 'follow' %}" method = "POST">
+                {% csrf_token %}
+                {% if is_follower %}
+                <button type="submit" name="user_id" value="{{users.sNo}}" class="btn btn-outline-secondary btn-block">
+                    <p class="h2 font-weight-light mb-0">Unfollow</p>
+                </button>
+                {% else %}
+                <button type="submit" name="user_id" value="{{users.sNo}}" class="btn btn-secondary btn-block">
+                    <p class="h2 font-weight-light mb-0">Follow</p>
+                </button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</section>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row">
+
+        {% for blog in blogs %}
+
+        <div class="col-md-4">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+              <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">{{users.name}}</strong>
+                <h3 class="mb-0">{{blog.title}}</h3>
+                <div class="mb-1 text-muted">{{blog.timestamp}}</div>
+                <p class="card-text mb-auto">{{blog.content| truncatechars:100}}</p>
+                <a href="/blog/{{blog.sNo}}" class="stretched-link">Continue reading</a>
+              </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        
+        
+
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -6,19 +6,47 @@
 
 {% block body %}
 
+{% if is_explore %}
+<div class="my-4">
+<ul class="nav nav-tabs nav-fill">
+  <li class="nav-item"></li>
+  <li class="nav-item">
+    <a class="nav-link btn-block lead bg-light text-secondary" role="button" href="/blog">For You</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active btn-block lead" role="button" href="/blog/explore">Explore</a>
+  </li>
+  <li class="nav-item"></li>
+</ul>
+</div>
+{% else %}
+<div class="my-4">
+  <ul class="nav nav-tabs nav-fill">
+    <li class="nav-item"></li>
+    <li class="nav-item">
+      <a class="nav-link active btn-block lead" role="button" href="/blog">For You</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn-block lead bg-light text-secondary" role="button" href="/blog/explore">Explore</a>
+    </li>
+    <li class="nav-item"></li>
+  </ul>
+  </div>
+{% endif %}
+
 <div class="container my-4">
-  <h1 class="display-4">Get Set...BLOGS</h1>
+  <p class="h1 font-weight-light">Get Set... Blogs!</p>
 
   {% for post in allPosts %}
 
   <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
     <div class="col p-4 d-flex flex-column position-static">
-      <strong class="d-inline-block mb-2 text-primary">{{post.author}}</strong>
+      <strong class="d-inline-block mb-2 text-primary"><a href="/profile/{{post.user_id}}">{{post.author}}</a></strong>
       <h3 class="mb-0">{{post.title}}</h3>
       <div class="mb-1 text-muted">{{post.timestamp}}</div>
       <p class="card-text mb-auto">{{post.content| truncatechars:300}}</p>
       <div class="mt-3">
-        <a href="{{post.slug}}" role="button" class="btn btn-secondary">Continue reading...</a>
+        <a href="{{post.sNo}}" role="button" class="btn btn-secondary">Continue reading...</a>
       </div>
     </div>
   </div>

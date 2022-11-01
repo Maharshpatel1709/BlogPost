@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     sNo = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=100)
     slug = models.CharField(max_length=100)
