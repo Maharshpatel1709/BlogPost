@@ -51,6 +51,10 @@ def handleSignup(request):
             messages.error(request, "Passwords do not match")
             return redirect('home')
 
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "User with username " + username + " already exists")
+            return redirect('home')
+
         myuser = User.objects.create_user(username, email, pass1)
         myuser.name = name
         myuser.save()

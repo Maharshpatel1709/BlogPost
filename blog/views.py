@@ -37,7 +37,7 @@ def blogPost(request, sNo):
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():
         is_liked = True 
-    print(post.content)
+    print(is_liked)
     context = {'post': post, 'uname': uname, 'is_liked': is_liked, 'total_likes': post.total_likes()}
     return render(request, 'blog/blogPost.html', context)
 
@@ -74,6 +74,7 @@ def like_post(request):
     users = Users.objects.get(user_id=post.user_id)
 
     if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
         users.likes -= 1
         users.save()
     else:
